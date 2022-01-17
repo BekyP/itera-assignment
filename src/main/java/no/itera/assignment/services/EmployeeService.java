@@ -15,12 +15,17 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-// TODO java docs https://www.oracle.com/technical-resources/articles/java/javadoc-tool.html
 public class EmployeeService {
 
   private final EmployeeRepository repository;
   private final EmployeeMapper mapper;
 
+  /**
+   * Returns a dto representation of employee with specified department
+   *
+   * @param personId id of requested employee
+   * @return employee (EmployeeDto) for requested personId
+   */
   public EmployeeDto fetchEmployeeByPersonId(Integer personId) {
     log.debug("requesting employee with id: {}", personId);
 
@@ -33,6 +38,11 @@ public class EmployeeService {
     return mapper.mapEntityToDto(employee);
   }
 
+  /**
+   * Returns list of all active employees - employee is active when he does not have endDate set
+   *
+   * @return list of all active employees (EmployeeDto)
+   */
   public List<EmployeeDto> fetchAllActiveEmployees() {
     List<EmployeeEntity> activeEmployees = repository.findAllByEndDateIsNull();
 
@@ -42,6 +52,12 @@ public class EmployeeService {
     return mapper.mapEntitiesToDtos(activeEmployees);
   }
 
+  /**
+   * Returns list of all active employees - employee is active when he does not have endDate set -
+   * grouped by department
+   *
+   * @return map of all active employees (EmployeeDto) grouped by department
+   */
   public Map<String, List<EmployeeDto>> fetchActiveEmployeesByDepartment() {
     return fetchAllActiveEmployees()
         .stream()
