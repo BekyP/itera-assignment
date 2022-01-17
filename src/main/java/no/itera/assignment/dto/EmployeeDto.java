@@ -3,7 +3,13 @@ package no.itera.assignment.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.Instant;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class EmployeeDto {
     private String name;
     private int age;
