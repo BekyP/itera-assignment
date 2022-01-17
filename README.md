@@ -1,5 +1,7 @@
 # Itera Java Home Assignment
 
+[![Java CI](https://github.com/BekyP/itera-assignment/actions/workflows/assignment-workflow.yml/badge.svg)](https://github.com/BekyP/itera-assignment/actions/workflows/assignment-workflow.yml) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=itera-assignment&metric=coverage)](https://sonarcloud.io/summary/new_code?id=itera-assignment) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=itera-assignment&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=itera-assignment)
+
 The goal of this assignment is to have proven example of coding skills. Your goal is to implement missing functionality using given application skeleton. The code should be written using high quality standards, best practices and additional unit tests should exist for newly created code. High code coverage is a plus. You should work on this assignment alone (external documentation and StackOverflow is okay) and it should take you approx. 2 hours to complete (depending on your seniority it might be more or less).
 
 ## The assignment
