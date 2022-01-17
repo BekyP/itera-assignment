@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import no.itera.assignment.dto.EmployeeDto;
 import no.itera.assignment.mappers.EmployeeMapper;
+import no.itera.assignment.persistence.employee.EmployeeEntity;
 import no.itera.assignment.persistence.employee.EmployeeRepository;
 import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,15 @@ public class EmployeeService {
   private final EmployeeMapper mapper;
 
   public EmployeeDto fetchEmployeeByPersonId(Integer personId) {
-    throw new NotYetImplementedException(
-        "method fetchEmployeeByPersonId(Integer personId) not implemented");
+    log.debug("requesting employee with id: {}", personId);
+
+    EmployeeEntity employee = repository.findById(personId)
+        .orElseThrow(
+            () -> new IllegalStateException("no employee with id: " + personId + " found"));
+
+    log.trace("found employee='{}'", employee);
+
+    return mapper.mapEntityToDto(employee);
   }
 
   public List<EmployeeDto> fetchAllActiveEmployees() {
