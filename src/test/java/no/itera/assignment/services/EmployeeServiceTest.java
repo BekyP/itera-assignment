@@ -6,9 +6,11 @@ import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import no.itera.assignment.dto.EmployeeDto;
 import no.itera.assignment.mappers.EmployeeMapper;
+import no.itera.assignment.persistence.department.DepartmentEntity;
 import no.itera.assignment.persistence.employee.EmployeeEntity;
 import no.itera.assignment.persistence.employee.EmployeeRepository;
 import org.junit.jupiter.api.Test;
@@ -67,5 +69,31 @@ class EmployeeServiceTest {
     List<EmployeeDto> activeEmployeesDtos = service.fetchAllActiveEmployees();
 
     assertThat(activeEmployeesDtos).hasSameElementsAs(dtos);
+  }
+
+  @Test
+  void fetchActiveEmployeesByDepartmentTest() {
+    String departmentName = "departmentName";
+
+    List<EmployeeDto> dtos = Collections.singletonList(
+        EmployeeDto.builder()
+            .departmentName(departmentName)
+            .build()
+    );
+    List<EmployeeEntity> entities = Collections.singletonList(
+        EmployeeEntity.builder()
+            .department(DepartmentEntity.builder()
+                .name(departmentName)
+                .build())
+            .build()
+    );
+
+    when(repository.findAllByEndDateIsNull()).thenReturn(entities);
+    when(mapper.mapEntitiesToDtos(entities)).thenReturn(dtos);
+
+    Map<String, List<EmployeeDto>> activeEmployeesByDepartmentMap = service
+        .fetchActiveEmployeesByDepartment();
+
+    assertThat(activeEmployeesByDepartmentMap).containsExactly(Map.entry(departmentName, dtos));
   }
 }

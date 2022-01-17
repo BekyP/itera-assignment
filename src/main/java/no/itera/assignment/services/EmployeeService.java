@@ -1,5 +1,7 @@
 package no.itera.assignment.services;
 
+import static java.util.stream.Collectors.groupingBy;
+
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -8,15 +10,12 @@ import no.itera.assignment.dto.EmployeeDto;
 import no.itera.assignment.mappers.EmployeeMapper;
 import no.itera.assignment.persistence.employee.EmployeeEntity;
 import no.itera.assignment.persistence.employee.EmployeeRepository;
-import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
-// TODO
 // TODO java docs https://www.oracle.com/technical-resources/articles/java/javadoc-tool.html
-// TODO unit tests
 public class EmployeeService {
 
   private final EmployeeRepository repository;
@@ -44,7 +43,8 @@ public class EmployeeService {
   }
 
   public Map<String, List<EmployeeDto>> fetchActiveEmployeesByDepartment() {
-    throw new NotYetImplementedException(
-        "method fetchActiveEmployeesByDepartment() not implemented");
+    return fetchAllActiveEmployees()
+        .stream()
+        .collect(groupingBy(EmployeeDto::getDepartmentName));
   }
 }
