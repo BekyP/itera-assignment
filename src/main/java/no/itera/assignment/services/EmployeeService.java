@@ -35,7 +35,12 @@ public class EmployeeService {
   }
 
   public List<EmployeeDto> fetchAllActiveEmployees() {
-    throw new NotYetImplementedException("method fetchAllActiveEmployees() not implemented");
+    List<EmployeeEntity> activeEmployees = repository.findAllByEndDateIsNull();
+
+    log.debug("found {} activeEmployees, mapping to dtos", activeEmployees.size());
+    log.trace("activeEmployees='{}'", activeEmployees);
+
+    return mapper.mapEntitiesToDtos(activeEmployees);
   }
 
   public Map<String, List<EmployeeDto>> fetchActiveEmployeesByDepartment() {

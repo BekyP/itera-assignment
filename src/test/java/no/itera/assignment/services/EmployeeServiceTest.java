@@ -1,9 +1,11 @@
 package no.itera.assignment.services;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import no.itera.assignment.dto.EmployeeDto;
 import no.itera.assignment.mappers.EmployeeMapper;
@@ -52,5 +54,18 @@ class EmployeeServiceTest {
         () -> service.fetchEmployeeByPersonId(id));
 
     assertThat(e).hasMessageStartingWith("no employee with id");
+  }
+
+  @Test
+  void fetchAllActiveEmployeesTest() {
+    List<EmployeeDto> dtos = Collections.singletonList(new EmployeeDto());
+    List<EmployeeEntity> entities = Collections.singletonList(new EmployeeEntity());
+
+    when(repository.findAllByEndDateIsNull()).thenReturn(entities);
+    when(mapper.mapEntitiesToDtos(entities)).thenReturn(dtos);
+
+    List<EmployeeDto> activeEmployeesDtos = service.fetchAllActiveEmployees();
+
+    assertThat(activeEmployeesDtos).hasSameElementsAs(dtos);
   }
 }
